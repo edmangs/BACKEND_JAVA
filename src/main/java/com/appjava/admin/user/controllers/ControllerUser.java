@@ -7,8 +7,11 @@ import javax.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -46,6 +49,20 @@ public class ControllerUser extends BaseController<ResourceUser, EntityUser> {
 			throws ServerErrorException, EntityNotFoundException, BadRequestException, ConflictException,
 			MethodArgumentNotValidException, Exception {
 		return super.list();
+	}
+	
+	@Override
+	@RequestMapping(method = RequestMethod.POST)
+	public ResponseEntity<ResourceUser> create(@RequestBody @Validated ResourceUser recurso) throws Exception, BadRequestException,
+			MethodArgumentNotValidException, ServerErrorException, EntityNotFoundException, ConflictException {
+		return super.create(recurso);
+	}
+	
+	@Override
+	@RequestMapping(method = RequestMethod.GET, path = "/{id}")
+	public ResponseEntity<ResourceUser> detail(@PathVariable("id") Long id) throws Exception, BadRequestException,
+			MethodArgumentNotValidException, ServerErrorException, EntityNotFoundException, ConflictException {
+		return super.detail(id);
 	}
 	
 	@Override

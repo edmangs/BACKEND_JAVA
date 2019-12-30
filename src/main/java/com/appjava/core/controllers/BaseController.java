@@ -8,6 +8,8 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -21,6 +23,8 @@ import com.appjava.core.exception.BadRequestException;
 import com.appjava.core.exception.ConflictException;
 import com.appjava.core.resources.BaseResource;
 import com.appjava.core.services.BaseService;
+import com.appjava.core.utils.SortAndPagination;
+import com.google.common.base.Converter;
 
 import springfox.documentation.swagger2.mappers.ModelMapper;
 
@@ -52,15 +56,23 @@ public abstract class BaseController<R extends BaseResource, E extends BaseEntit
 		return new ResponseEntity<List<R>>(listado, HttpStatus.OK);
     }
 	
-	@RequestMapping(value = "/search", method = RequestMethod.GET)
-    public String search() {
-        return "custom";
-    }
+	public ResponseEntity<R> detail(Long id) throws Exception, EntityNotFoundException {
+		entityManager.clear();
+		E entidad = getService().detail(id);
+		if (entidad == null) {
+			throw new EntityNotFoundException("No existe el elemento");
+		}
+		R detalle = convertEntityToResource(entidad);
+		return new ResponseEntity<R>(detalle, HttpStatus.OK);
+	}
 	
-	@RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String create() {
-        return "custom";
-    }
+	public ResponseEntity<R> create(R recurso) throws Exception, BadRequestException {
+		E entidad = getService().create(convertResourceToEntity(recurso));
+		entityManager.clear();
+		E creada = getService().detail(entidad.getId());
+		R nuevoRecurso = convertEntityToResource(creada);
+		return new ResponseEntity<R>(nuevoRecurso, HttpStatus.CREATED);
+	}
 	
 	@RequestMapping(value = "/update", method = RequestMethod.PUT)
     public String update() {

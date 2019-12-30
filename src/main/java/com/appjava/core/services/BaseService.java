@@ -1,6 +1,7 @@
 package com.appjava.core.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -42,6 +43,23 @@ public abstract class BaseService<E extends BaseEntity> {
 			}
 		}
 		return sortInfo;
+	}
+	
+	public E detail(final long id)
+			throws Exception, BadRequestException, MethodArgumentNotValidException, ServerErrorException,
+			EntityNotFoundException, ConflictException {
+		Optional<E> entity = getRepository().findById(id);
+		if (entity.isPresent()) {
+			return entity.get();
+		}
+		throw new EntityNotFoundException("no se encontro el registro buscado");
+	}
+	
+	public E create(E entidad)
+			throws Exception, BadRequestException, MethodArgumentNotValidException, ServerErrorException,
+			EntityNotFoundException, ConflictException {
+		E resultEntity = getRepository().save(entidad);
+		return resultEntity;
 	}
 	
 	public abstract PagingAndSortingRepository<E, Long> getRepository();

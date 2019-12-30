@@ -1,23 +1,33 @@
 package com.appjava.admin.user.entity;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.appjava.core.entity.BaseEntity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 @Builder
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "USER")
 public class EntityUser extends BaseEntity {
 	
 	@Id
-	@Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+	@Column(name = "ID", unique=true, nullable = false)
 	private Long id;
 	
+	@Basic(optional = false)
 	@Column(name = "FIRST_NAME", columnDefinition = "VARCHAR(255) NOT NULL")
     private String firstName;
 	

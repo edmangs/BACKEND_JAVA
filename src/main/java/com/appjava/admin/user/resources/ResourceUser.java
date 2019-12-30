@@ -2,6 +2,14 @@ package com.appjava.admin.user.resources;
 
 import com.appjava.core.resources.BaseResource;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class ResourceUser extends BaseResource {
 	
 	private Long id;
