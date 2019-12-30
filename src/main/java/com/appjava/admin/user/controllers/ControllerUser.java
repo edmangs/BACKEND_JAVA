@@ -59,6 +59,13 @@ public class ControllerUser extends BaseController<ResourceUser, EntityUser> {
 	}
 	
 	@Override
+	@RequestMapping(method = RequestMethod.PUT)
+	public ResponseEntity<ResourceUser> update(@RequestBody @Validated ResourceUser recurso) throws Exception, BadRequestException,
+			MethodArgumentNotValidException, ServerErrorException, EntityNotFoundException, ConflictException {
+		return super.update(recurso);
+	}
+	
+	@Override
 	@RequestMapping(method = RequestMethod.GET, path = "/{id}")
 	public ResponseEntity<ResourceUser> detail(@PathVariable("id") Long id) throws Exception, BadRequestException,
 			MethodArgumentNotValidException, ServerErrorException, EntityNotFoundException, ConflictException {

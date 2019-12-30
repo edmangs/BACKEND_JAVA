@@ -17,6 +17,7 @@ import com.appjava.core.exception.BadRequestException;
 import com.appjava.core.exception.ConflictException;
 import com.appjava.core.repository.BaseRepository;
 import com.appjava.core.utils.SortAndPagination;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
 import org.springframework.data.domain.Sort;
@@ -60,6 +61,17 @@ public abstract class BaseService<E extends BaseEntity> {
 			EntityNotFoundException, ConflictException {
 		E resultEntity = getRepository().save(entidad);
 		return resultEntity;
+	}
+	
+	public E update(final E entidad) throws ServerErrorException, EntityNotFoundException, BadRequestException,
+			ConflictException, MethodArgumentNotValidException, Exception {
+		if(entidad.getId()!=null && !entidad.getId().equals(0l)) {
+			Preconditions.checkNotNull(entidad);
+			final E resultEntity = getRepository().save(entidad);
+			return resultEntity;
+		}else {
+			throw new BadRequestException("Imposible actualizar sin proveer el id de referencia");
+		}
 	}
 	
 	public abstract PagingAndSortingRepository<E, Long> getRepository();

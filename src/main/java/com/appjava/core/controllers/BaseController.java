@@ -23,8 +23,6 @@ import com.appjava.core.exception.BadRequestException;
 import com.appjava.core.exception.ConflictException;
 import com.appjava.core.resources.BaseResource;
 import com.appjava.core.services.BaseService;
-import com.appjava.core.utils.SortAndPagination;
-import com.google.common.base.Converter;
 
 import springfox.documentation.swagger2.mappers.ModelMapper;
 
@@ -74,10 +72,14 @@ public abstract class BaseController<R extends BaseResource, E extends BaseEntit
 		return new ResponseEntity<R>(nuevoRecurso, HttpStatus.CREATED);
 	}
 	
-	@RequestMapping(value = "/update", method = RequestMethod.PUT)
-    public String update() {
-        return "custom";
-    }
+	public ResponseEntity<R> update(R recurso)
+			throws ServerErrorException, EntityNotFoundException, BadRequestException, ConflictException,
+			MethodArgumentNotValidException, Exception {
+		E entidad = convertResourceToEntity(recurso);
+		entidad = getService().update(entidad);
+		recurso = convertEntityToResource(entidad);
+		return new ResponseEntity<R>(recurso, HttpStatus.OK);
+	}
 	
 	@RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public String delete() {
