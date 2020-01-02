@@ -17,7 +17,7 @@ import com.appjava.core.utils.SortAndPagination;
 @Service
 public class ServiceUser extends BaseService<EntityUser> {
 	
-	@Autowired
+	@Autowired(required=true)
 	private RepositoryUser repositorio;
 
 	public ServiceUser() {

@@ -6,6 +6,7 @@ import javax.persistence.EntityNotFoundException;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -25,8 +26,6 @@ import com.appjava.core.controllers.BaseController;
 import com.appjava.core.exception.BadRequestException;
 import com.appjava.core.exception.ConflictException;
 import com.appjava.core.services.BaseService;
-
-import org.springframework.http.HttpStatus;
 
 import io.swagger.annotations.Api;
 
@@ -70,6 +69,13 @@ public class ControllerUser extends BaseController<ResourceUser, EntityUser> {
 	public ResponseEntity<ResourceUser> detail(@PathVariable("id") Long id) throws Exception, BadRequestException,
 			MethodArgumentNotValidException, ServerErrorException, EntityNotFoundException, ConflictException {
 		return super.detail(id);
+	}
+	
+	@Override
+	@RequestMapping(method = RequestMethod.DELETE, path = "/{id}")
+	public ResponseEntity<ResourceUser> delete(@PathVariable("id") Long id) throws Exception, BadRequestException,
+			MethodArgumentNotValidException, ServerErrorException, EntityNotFoundException, ConflictException {
+		return super.delete(id);
 	}
 	
 	@Override

@@ -74,6 +74,15 @@ public abstract class BaseService<E extends BaseEntity> {
 		}
 	}
 	
+	public void delete(final long id)
+			throws Exception, BadRequestException, MethodArgumentNotValidException, ServerErrorException,
+			EntityNotFoundException, ConflictException {
+		Optional<E> entity = getRepository().findById(id);
+		if (entity.isPresent()) {
+			getRepository().delete(entity.get());
+		}
+	}
+	
 	public abstract PagingAndSortingRepository<E, Long> getRepository();
 
 	public abstract JpaSpecificationExecutor<E> getSpecificationExecutor();

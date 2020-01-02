@@ -23,8 +23,9 @@ import com.appjava.core.exception.BadRequestException;
 import com.appjava.core.exception.ConflictException;
 import com.appjava.core.resources.BaseResource;
 import com.appjava.core.services.BaseService;
-
+import com.appjava.core.utils.SortAndPagination;
 import springfox.documentation.swagger2.mappers.ModelMapper;
+import com.google.common.base.Converter;
 
 @ControllerAdvice
 public abstract class BaseController<R extends BaseResource, E extends BaseEntity> {
@@ -40,11 +41,6 @@ public abstract class BaseController<R extends BaseResource, E extends BaseEntit
 	protected abstract R convertEntityToResource(E entidad);
 
 	protected abstract E convertResourceToEntity(R recurso);
-	
-	@RequestMapping(value = "/get", method = RequestMethod.GET)
-    public String get() {
-        return "custom";
-    }
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
     public ResponseEntity<List<R>> list() throws ServerErrorException, EntityNotFoundException, BadRequestException,
@@ -81,9 +77,15 @@ public abstract class BaseController<R extends BaseResource, E extends BaseEntit
 		return new ResponseEntity<R>(recurso, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    public String delete() {
-        return "custom";
-    }
+	public ResponseEntity<R> delete(Long id) throws Exception, EntityNotFoundException, ConflictException {
+
+		E entidad = getService().detail(id);
+		if (entidad == null) {
+			throw new EntityNotFoundException("No existe el elemento");
+		}
+		
+		getService().delete(id);
+		return new ResponseEntity<R>(HttpStatus.OK);
+	}
 	
 }

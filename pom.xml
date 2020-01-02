@@ -24,6 +24,11 @@
 	        <name>jcenter</name>
 	        <url>http://oss.jfrog.org/artifactory/oss-snapshot-local/</url>
 	    </repository>
+	    
+	    <repository>
+		    <id>kaczmarzyk.net</id>
+		    <url>http://repo.kaczmarzyk.net</url>
+		</repository>
 	</repositories>
 
 	<dependencies>
@@ -94,6 +99,13 @@
 			<groupId>org.modelmapper</groupId>
 			<artifactId>modelmapper</artifactId>
 			<version>2.3.2</version>
+		</dependency>
+		
+		<!-- Criteria -->
+		<dependency>
+		    <groupId>net.kaczmarzyk</groupId>
+		    <artifactId>specification-arg-resolver</artifactId>
+		    <version>2.1.1</version>
 		</dependency>
 	</dependencies>
 
