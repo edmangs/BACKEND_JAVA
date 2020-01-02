@@ -32,7 +32,7 @@ import io.swagger.annotations.Api;
 @Api("Application User")
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/v1/users")
 public class ControllerUser extends BaseController<ResourceUser, EntityUser> {
 	
 	@Autowired
